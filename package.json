@@ -1,0 +1,17 @@
+{
+  "name": "cypress-simple-project",
+  "version": "1.0.0",
+  "description": "Cypress tests",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:suite1": "CONFIG_FILE=default.config.js node cypress/tests/test-execution/suite1/suite1_execution.js",
+    "test:suite2": "CONFIG_FILE=dev.config.js node cypress/tests/test-execution/suite2/suite2_execution.js",
+    "test:suite3": "CONFIG_FILE=prod.config.js node cypress/tests/test-execution/suite3/suite3_execution.js",
+    "test:suite4": "CONFIG_FILE=default.config.js node cypress/tests/test-execution/suite4/suite4_execution.js",
+    "test:suite5": "CONFIG_FILE=dev.config.js node cypress/tests/test-execution/suite5/suite5_execution.js"
+  },
+  "devDependencies": {
+    "cypress": "^14.2.0"
+  }
+}
