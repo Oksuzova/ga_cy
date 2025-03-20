@@ -1,4 +1,7 @@
 name: cypress parallel
+permissions:
+  contents: write
+  pages: write
 on:
   push:
     branches: main
@@ -53,10 +56,12 @@ jobs:
 
       - name: Prepare merged results
         run: |
-          mkdir -p allure-results
+          rm -rf merged-results
+          mkdir -p merged-results
+          find allure-results -type f -exec cp {} merged-results/ \;
+          rm -rf allure-results
+          mv merged-results allure-results
           ls -la allure-results
-          find allure-results -type f -exec cp {} allure-results/ \;
-          ls -la allure-results || echo "Directory empty"
 
       - name: Load test report history
         uses: actions/checkout@v3
@@ -75,6 +80,7 @@ jobs:
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
+        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
