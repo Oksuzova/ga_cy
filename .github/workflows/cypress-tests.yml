@@ -54,7 +54,9 @@ jobs:
       - name: Prepare merged results
         run: |
           mkdir -p build/allure-results
-          cp -r allure-results-download/*/* build/allure-results/
+          ls -la allure-results-download
+          find allure-results-download -type f -exec cp {} build/allure-results/ \;
+          ls -la build/allure-results || echo "Directory empty"
 
       - name: Load test report history
         uses: actions/checkout@v3
