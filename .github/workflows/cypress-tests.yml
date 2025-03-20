@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install Cypress
         uses: cypress-io/github-action@v5
         with:
@@ -23,7 +23,7 @@ jobs:
         containers: [1, 2, 3]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Run Test Parallel
         uses: cypress-io/github-action@v5
         with:
@@ -32,7 +32,7 @@ jobs:
 
       - name: Save test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allure-results-${{ matrix.containers }}
           path: build/allure-results
@@ -44,10 +44,10 @@ jobs:
     if: always()
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: allure-results-download
 
