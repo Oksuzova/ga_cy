@@ -52,6 +52,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
+          pattern: allure-results-*
           path: allure-results
 
       - name: Prepare merged results
@@ -64,7 +65,7 @@ jobs:
           ls -la allure-results
 
       - name: Load test report history
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         continue-on-error: true
         with:
           ref: gh-pages
