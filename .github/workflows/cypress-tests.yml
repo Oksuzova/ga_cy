@@ -1,7 +1,5 @@
 name: cypress parallel
-permissions:
-  contents: write
-  pages: write
+
 on:
   push:
     branches: main
