@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: allure-results-${{ matrix.containers }}
-          path: build/allure-results
+          path: allure-results
           retention-days: 1
 
   report:
@@ -49,14 +49,14 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          path: allure-results-download
+          path: allure-results
 
       - name: Prepare merged results
         run: |
-          mkdir -p build/allure-results
-          ls -la allure-results-download
-          find allure-results-download -type f -exec cp {} build/allure-results/ \;
-          ls -la build/allure-results || echo "Directory empty"
+          mkdir -p allure-results
+          ls -la allure-results
+          find allure-results -type f -exec cp {} allure-results/ \;
+          ls -la allure-results || echo "Directory empty"
 
       - name: Load test report history
         uses: actions/checkout@v3
@@ -70,7 +70,7 @@ jobs:
         with:
           gh_pages: gh-pages
           allure_history: allure-history
-          allure_results: build/allure-results
+          allure_results: allure-results
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
