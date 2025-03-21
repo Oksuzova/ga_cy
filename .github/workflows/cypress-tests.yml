@@ -89,3 +89,13 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
+
+      - name: Add report link to job summary
+        run: |
+          echo "## :chart_with_upwards_trend: Test Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### :link: [View full Allure Report](https://oksuzova.github.io/ga_cy/)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Report automatically updates after each test run. Last update: $(date)" >> $GITHUB_STEP_SUMMARY
+
+          echo "::notice title=Allure Report::Report available at: https://oksuzova.github.io/ga_cy/"
