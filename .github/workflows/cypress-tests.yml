@@ -60,9 +60,8 @@ jobs:
 
       - name: Prepare merged results
         run: |
-          rm -rf merged-results
           mkdir -p merged-results
-          find allure-results -type f -exec cp {} merged-results/ \;
+          cp -r allure-results/* merged-results/
           rm -rf allure-results
           mv merged-results allure-results
           ls -la allure-results
