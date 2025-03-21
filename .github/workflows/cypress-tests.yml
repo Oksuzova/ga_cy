@@ -1,9 +1,14 @@
 name: cypress parallel
+permissions:
+  contents: write
+  pages: write
 
 on:
   push:
     branches: main
   workflow_dispatch:
+  schedule:
+    - cron: '*/30 * * * *'
 jobs:
   install:
     runs-on: ubuntu-latest
