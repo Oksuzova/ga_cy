@@ -60,11 +60,10 @@ jobs:
 
       - name: Prepare merged results
         run: |
-          mkdir -p merged-results
-          cp -r allure-results/* merged-results/
+          mkdir -p allure-results-merged
+          cp -r allure-results/*/* allure-results-merged/
           rm -rf allure-results
-          mv merged-results allure-results
-          ls -la allure-results
+          mv allure-results-merged allure-results
 
       - name: Load test report history
         uses: actions/checkout@v4
