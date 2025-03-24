@@ -15,6 +15,11 @@ on:
           - default.config.js
           - dev.config.js
           - prod.config.js
+      test_suite:
+        description: 'Tests suites to run (comma separated)'
+        required: false
+        type: string
+        default: ''
       spec_1:
         type: boolean
         default: false
@@ -47,15 +52,29 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const inputs = {
-              "1": ${{ github.event.inputs.spec_1 }},
-              "2": ${{ github.event.inputs.spec_2 }},
-              "3": ${{ github.event.inputs.spec_3 }}
-            };
+            const testSuite = '${{ github.event.inputs.test_suite }}';
+            let specs = [];
 
-            const specs = Object.entries(inputs)
-              .filter(([_, selected]) => selected === true)
-              .map(([key]) => `simple-test-${key}.cy.js`);
+            if (testSuite && testSuite.trim() !== '') {
+              const directories = testSuite.split(',').map(dir => dir.trim());
+
+              specs = directories.map(dir => {
+                if (!dir.startsWith('cypress/')) {
+                  return `cypress/tests/test-suites/ui-tests/${dir}/**/*.cy.js`;
+                }
+                return `${dir}/**/*.cy.js`;
+              });
+            } else {
+              const inputs = {
+                "1": ${{ github.event.inputs.spec_1 }},
+                "2": ${{ github.event.inputs.spec_2 }},
+                "3": ${{ github.event.inputs.spec_3 }}
+              };
+
+              specs = Object.entries(inputs)
+                .filter(([_, selected]) => selected === true)
+                .map(([key]) => `cypress/tests/test-suites/ui-tests/simple-tests/simple-test-${key}.cy.js`);
+            }
 
             core.setOutput('specs', JSON.stringify(specs));
 
@@ -73,7 +92,7 @@ jobs:
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v5
         with:
-          command: npx cypress run --spec cypress/tests/test-suites/ui-tests/simple-tests/${{ matrix.spec }}
+          command: npx cypress run --spec ${{ matrix.spec }}
           browser: chrome
         env:
           CONFIG_FILE: ${{ github.event.inputs.config_file }}

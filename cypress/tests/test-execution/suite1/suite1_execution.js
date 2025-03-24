@@ -6,7 +6,7 @@ console.log(`Running Suite 1 with config: ${configFile}`);
 cypress.run({
     config: {
         e2e: {
-            specPattern: 'cypress/tests/test-suites/ui-tests/simple-tests/simple-test-1.cy.js'
+            specPattern: 'cypress/tests/test-suites/ui-tests/simple-tests/simple-test-4.cy.js'
         }
     },
     configFile: `cypress/configuration-files/${configFile}`
