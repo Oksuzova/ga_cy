@@ -99,12 +99,21 @@ jobs:
 
       - name: Prepare merged results
         run: |
-          rm -rf merged-results
+          echo "Downloaded artifacts:"
+          ls -la
+          find . -name "allure-results*" -type d | sort
+
           mkdir -p merged-results
-          find allure-results -type f -exec cp {} merged-results/ \;
+
+          find . -path "*/allure-results-*/*" -type f -exec cp {} merged-results/ \;
+
           rm -rf allure-results
           mv merged-results allure-results
+
+          echo "allure-results content:"
           ls -la allure-results
+          find allure-results -type f | wc -l
+
       - name: Load test report history
         uses: actions/checkout@v4
         continue-on-error: true
