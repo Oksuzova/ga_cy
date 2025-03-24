@@ -1,7 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Sun Mar 23 17:38:04 GMT 2025","Sun Mar 23 17:38:04 GMT 2025","18","Simple Test Suite 2","","","","","always passes - working with arrays",""
-"passed","Sun Mar 23 17:38:24 GMT 2025","Sun Mar 23 17:38:24 GMT 2025","74","Simple Test Suite 3","","","","","always passes - using Cypress commands",""
-"passed","Sun Mar 23 17:38:25 GMT 2025","Sun Mar 23 17:38:25 GMT 2025","19","Simple Test Suite 3","","","","","always passes - environment check",""
-"passed","Sun Mar 23 17:38:02 GMT 2025","Sun Mar 23 17:38:02 GMT 2025","306","Simple Test Suite 1","","","","","always passes - basic assertions",""
-"passed","Sun Mar 23 17:38:02 GMT 2025","Sun Mar 23 17:38:03 GMT 2025","518","Simple Test Suite 1","","","","","always passes - with wait",""
-"passed","Sun Mar 23 17:38:04 GMT 2025","Sun Mar 23 17:38:04 GMT 2025","33","Simple Test Suite 2","","","","","always passes - working with objects",""
