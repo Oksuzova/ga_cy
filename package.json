@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Cypress tests",
   "homepage": "https://Oksuzova.github.io/ga_cy",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
