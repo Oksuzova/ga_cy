@@ -7,7 +7,7 @@ module.exports = defineConfig({
     numTestsKeptInMemory: 1,
     e2e: {
         baseUrl: null,
-        specPattern: "cypress/tests/test-suites/**/*.cy.js",
+        specPattern: "cypress/tests/**/*.cy.js",
         video: false,
         viewportWidth: 1280,
         viewportHeight: 720,
