@@ -21,6 +21,7 @@
     "gh-pages": "^6.3.0"
   },
   "dependencies": {
+    "@shelex/cypress-allure-plugin": "^2.40.2",
     "allure-js-commons": "^3.2.0"
   }
 }

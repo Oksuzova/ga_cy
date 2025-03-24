@@ -56,13 +56,27 @@ jobs:
             let specs = [];
 
             if (testSuite && testSuite.trim() !== '') {
-              const directories = testSuite.split(',').map(dir => dir.trim());
+              const items = testSuite.split(',').map(item => item.trim());
 
-              specs = directories.map(dir => {
-                if (!dir.startsWith('cypress/')) {
-                  return `cypress/tests/test-suites/ui-tests/${dir}/**/*.cy.js`;
+              specs = items.map(item => {
+                if (item.endsWith('.cy.js') || item.endsWith('.js')) {
+                  if (item.includes('/')) {
+                    return item;
+                  } 
+                  if (item.endsWith('.cy.js')) {
+                    const testNumber = item.match(/simple-test-(\d+)\.cy\.js/);
+                    if (testNumber) {
+                      return `cypress/tests/test-suites/ui-tests/simple-tests${testNumber[1] > 3 ? '2' : ''}/` + item;
+                    }
+                    return `cypress/tests/test-suites/ui-tests/simple-tests/` + item;
+                  }
+                  return `cypress/tests/test-suites/ui-tests/` + item;
                 }
-                return `${dir}/**/*.cy.js`;
+
+                if (!item.startsWith('cypress/')) {
+                  return `cypress/tests/test-suites/ui-tests/${item}/**/*.cy.js`;
+                }
+                return `${item}/**/*.cy.js`;
               });
             } else {
               const inputs = {
@@ -92,10 +106,7 @@ jobs:
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v5
         with:
-          command: |
-            mkdir -p allure-results
-            echo "TEST_FILE=${{ matrix.spec }}" > allure-results/environment.properties
-            npx cypress run --spec ${{ matrix.spec }}
+          command: npx cypress run --spec ${{ matrix.spec }}
           browser: chrome
         env:
           CONFIG_FILE: ${{ github.event.inputs.config_file }}

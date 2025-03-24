@@ -1,5 +1,6 @@
 const { defineConfig } = require("cypress");
 const {allureCypress} = require("allure-cypress/reporter");
+const allureWriter = require('@shelex/cypress-allure-plugin/writer');
 
 module.exports = defineConfig({
     experimentalMemoryManagement: true,
@@ -20,6 +21,7 @@ module.exports = defineConfig({
             allureCypress(on, config, {
                 resultsDir: "allure-results",
             });
+            allureWriter(on, config);
             return config;
         },
         env: {
