@@ -101,7 +101,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-${{ matrix.spec }}
+          name: allure-results-${{ hashFiles(matrix.spec) || github.run_id }}
           path: allure-results
           retention-days: 1
 
