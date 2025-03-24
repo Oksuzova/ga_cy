@@ -147,18 +147,32 @@ jobs:
 
       - name: Prepare merged results
         run: |
+          rm -rf merged-results
           mkdir -p merged-results
-          mkdir -p allure-results
 
           if [ "$(find allure-results -type f 2>/dev/null | wc -l)" -gt 0 ]; then
             find allure-results -type f -exec cp {} merged-results/ \;
+            rm -rf allure-results
+            mv merged-results allure-results
           else
-            echo "No test results found. Creating placeholder file."
-            echo '{"name": "No test results", "status": "broken"}' > merged-results/no-results.json
+            echo "No test results found"
+            mkdir -p allure-results
+            cat > allure-results/result.json << EOF
+            {
+              "uuid": "$(uuidgen || cat /proc/sys/kernel/random/uuid)",
+              "historyId": "empty-results",
+              "name": "No Test Results",
+              "status": "broken",
+              "statusDetails": {
+                "message": "No test results were found"
+              },
+              "stage": "finished",
+              "start": $(date +%s%N | cut -b1-13),
+              "stop": $(date +%s%N | cut -b1-13)
+            }
+            EOF
           fi
 
-          rm -rf allure-results
-          mv merged-results allure-results
           ls -la allure-results
 
       - name: Load test report history
