@@ -52,10 +52,13 @@ jobs:
               "2": ${{ github.event.inputs.spec_2 }},
               "3": ${{ github.event.inputs.spec_3 }}
             };
+
             const specs = Object.entries(inputs)
               .filter(([_, selected]) => selected === true)
               .map(([key]) => `simple-test-${key}.cy.js`);
+
             core.setOutput('specs', JSON.stringify(specs));
+
   tests:
     runs-on: ubuntu-latest
     needs: [ install, create-job-matrix ]
@@ -99,20 +102,12 @@ jobs:
 
       - name: Prepare merged results
         run: |
-          echo "Downloaded artifacts:"
-          ls -la
-          find . -name "allure-results*" -type d | sort
-
+          rm -rf merged-results
           mkdir -p merged-results
-
-          find . -path "*/allure-results-*/*" -type f -exec cp {} merged-results/ \;
-
+          find allure-results -type f -exec cp {} merged-results/ \;
           rm -rf allure-results
           mv merged-results allure-results
-
-          echo "allure-results content:"
           ls -la allure-results
-          find allure-results -type f | wc -l
 
       - name: Load test report history
         uses: actions/checkout@v4
@@ -144,4 +139,5 @@ jobs:
           echo "### :link: [View full Allure Report](https://oksuzova.github.io/ga_cy/)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Report automatically updates after each test run. Last update: $(date)" >> $GITHUB_STEP_SUMMARY
+
           echo "::notice title=Allure Report::Report available at: https://oksuzova.github.io/ga_cy/"
