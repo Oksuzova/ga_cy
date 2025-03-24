@@ -92,7 +92,10 @@ jobs:
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v5
         with:
-          command: npx cypress run --spec ${{ matrix.spec }}
+          command: |
+            mkdir -p allure-results
+            echo "TEST_FILE=${{ matrix.spec }}" > allure-results/environment.properties
+            npx cypress run --spec ${{ matrix.spec }}
           browser: chrome
         env:
           CONFIG_FILE: ${{ github.event.inputs.config_file }}
