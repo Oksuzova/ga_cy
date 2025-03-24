@@ -52,19 +52,23 @@ jobs:
               if (!inputValue || inputValue.trim() === '') {
                 return [];
               }
-              
-              const items = inputValue.split(',').map(item => item.trim());
-              
-              return items.map(item => {
-                if (item.endsWith('.cy.js')) {
-                  if (item.startsWith('cypress/')) {
-                    return item;
-                  }
-                  return `${basePath}/${item}`;
+            
+            const items = inputValue.split(',').map(item => item.trim());
+            
+            return items.map(item => {
+              if (item.endsWith('.js') || item.endsWith('.cy.js')) {
+                if (item.startsWith('cypress/')) {
+                  return item;
                 }
-                
+                return `${basePath}/${item}`;
+            }
+            
+            if (basePath.includes('test-execution')) {
+                return `${basePath}/${item}/**/*.js`;
+            } else {
                 return `${basePath}/${item}/**/*.cy.js`;
-              });
+               }
+             });
             }
 
             const executionSpecs = processTests(executionTests, 'cypress/tests/test-execution');
@@ -93,7 +97,7 @@ jobs:
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v5
         with:
-          command: npx cypress run --spec "${{ matrix.spec }}"
+          command: npx cypress run --spec ${{ matrix.spec }}
           browser: chrome
         env:
           CONFIG_FILE: ${{ github.event.inputs.config_file }}
