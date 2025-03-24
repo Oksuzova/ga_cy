@@ -1,4 +1,4 @@
-describe('Simple Test Suite 2', () => {
+describe('Simple Test Suite 5', () => {
     it('always passes - working with objects', () => {
         const testObject = { name: 'test', value: 123 };
         expect(testObject).to.have.property('name');

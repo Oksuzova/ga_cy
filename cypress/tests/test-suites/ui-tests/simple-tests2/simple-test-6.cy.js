@@ -1,4 +1,4 @@
-describe('Simple Test Suite 3', () => {
+describe('Simple Test Suite 6', () => {
     it('always passes - using Cypress commands', () => {
         cy.wrap(true).should('be.true');
         cy.wrap('hello').should('be.a', 'string');

@@ -1,6 +1,6 @@
 import * as allure from "allure-js-commons";
 
-describe('Simple Test Suite 1', () => {
+describe('Simple Test Suite 4', () => {
     it('always passes - basic assertions', () => {
         expect(true).to.equal(true);
     });
