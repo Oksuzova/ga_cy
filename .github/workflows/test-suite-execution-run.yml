@@ -96,12 +96,18 @@ jobs:
         run: |
           echo "Running tests for spec: ${{ matrix.spec }}"
 
+      - name: Setup Cypress
+        uses: cypress-io/github-action@v5
+        with:
+          runTests: false
+
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v5
         if: ${{ !contains(matrix.spec, 'test-execution') }}
         with:
           command: npx cypress run --spec ${{ matrix.spec }}
           browser: chrome
+          install: false
         env:
           CONFIG_FILE: ${{ github.event.inputs.config_file }}
 
