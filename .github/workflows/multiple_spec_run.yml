@@ -117,15 +117,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: allure-results-*
-          path: allure-results
+          path: artifacts
 
       - name: Prepare merged results
         run: |
-          rm -rf merged-results
-          mkdir -p merged-results
-          find allure-results -type f -exec cp {} merged-results/ \;
           rm -rf allure-results
-          mv merged-results allure-results
+          mkdir -p allure-results
+          find artifacts -type f | xargs -I {} cp {} allure-results/
           ls -la allure-results
 
       - name: Load test report history
