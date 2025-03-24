@@ -6,18 +6,27 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
+      config_file:
+        description: Configuration file to use
+        required: true
+        default: 'default.config.js'
+        type: choice
+        options:
+          - default.config.js
+          - dev.config.js
+          - prod.config.js
       spec_1:
         type: boolean
         default: false
-        description: Use spec simple-test-1.cy.js?
+        description: simple-test-1.cy.js
       spec_2:
         type: boolean
         default: false
-        description: Use spec simple-test-2.cy.js?
+        description: simple-test-2.cy.js
       spec_3:
         type: boolean
         default: false
-        description: Use spec simple-test-3.cy.js?
+        description: simple-test-3.cy.js
 jobs:
   install:
     runs-on: ubuntu-latest
@@ -52,7 +61,7 @@ jobs:
 
   tests:
     runs-on: ubuntu-latest
-    needs: create-job-matrix
+    needs: [ install, create-job-matrix ]
     if: ${{ needs.create-job-matrix.outputs.specs != '[]' }}
     strategy:
       fail-fast: false
@@ -64,8 +73,10 @@ jobs:
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v5
         with:
-          spec: cypress/tests/test-suites/ui-tests/simple-tests/${{ matrix.spec }}
+          command: npx cypress run --spec cypress/tests/test-suites/ui-tests/simple-tests/${{ matrix.spec }}
           browser: chrome
+        env:
+          CONFIG_FILE: ${{ github.event.inputs.config_file }}
 
       - name: Save test results
         if: always()
