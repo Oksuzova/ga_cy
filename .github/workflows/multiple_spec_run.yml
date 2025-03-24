@@ -79,7 +79,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-${{ strategy.job-index }}-${{ github.run_id }}
+          name: allure-results-${{ matrix.spec }}
           path: allure-results
           retention-days: 1
 
@@ -95,15 +95,16 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: allure-results-*
-          path: artifacts
+          path: allure-results
 
       - name: Prepare merged results
         run: |
+          rm -rf merged-results
+          mkdir -p merged-results
+          find allure-results -type f -exec cp {} merged-results/ \;
           rm -rf allure-results
-          mkdir -p allure-results
-          find artifacts -type f | xargs -I {} cp {} allure-results/
+          mv merged-results allure-results
           ls -la allure-results
-
       - name: Load test report history
         uses: actions/checkout@v4
         continue-on-error: true
@@ -134,5 +135,4 @@ jobs:
           echo "### :link: [View full Allure Report](https://oksuzova.github.io/ga_cy/)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Report automatically updates after each test run. Last update: $(date)" >> $GITHUB_STEP_SUMMARY
-
           echo "::notice title=Allure Report::Report available at: https://oksuzova.github.io/ga_cy/"
