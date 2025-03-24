@@ -1,0 +1,5 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Mon Mar 24 20:49:05 GMT 2025","Mon Mar 24 20:49:05 GMT 2025","19","Simple Test Suite 3","","","","","always passes - environment check",""
+"passed","Mon Mar 24 20:48:39 GMT 2025","Mon Mar 24 20:48:39 GMT 2025","44","Simple Test Suite 1","","","","","always passes - basic assertions",""
+"passed","Mon Mar 24 20:49:05 GMT 2025","Mon Mar 24 20:49:05 GMT 2025","65","Simple Test Suite 3","","","","","always passes - using Cypress commands",""
+"passed","Mon Mar 24 20:48:40 GMT 2025","Mon Mar 24 20:48:40 GMT 2025","523","Simple Test Suite 1","","","","","always passes - with wait",""
