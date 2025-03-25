@@ -170,20 +170,17 @@ jobs:
           for dir in allure-results/*/; do
             if [ -d "$dir" ]; then
               dir_id=$(basename "$dir")
+              mkdir -p "merged-results/$dir_id"
 
-              find "$dir" -type f -name "*.json" | while read -r file; do
-                filename=$(basename "$file")
-                cp -v "$file" "merged-results/${dir_id}-${filename}"
-              done
-
-              find "$dir" -type f -not -name "*.json" | while read -r file; do
-                cp -v "$file" "merged-results/"
+              find "$dir" -type f | while read -r file; do
+                cp -v "$file" "merged-results/$dir_id/"
               done
             fi
           done
 
-          rm -rf allure-results
-          mv merged-results allure-results
+          find merged-results -type f -name "*.json" -exec cp {} allure-results/ \;
+          find merged-results -type f -not -name "*.json" -exec cp {} allure-results/ \;
+
           echo "Final allure-results content:"
           ls -la allure-results || echo "Empty allure-results directory"
           echo "Total files in allure-results:"
