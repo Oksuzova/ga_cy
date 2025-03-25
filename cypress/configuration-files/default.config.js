@@ -1,8 +1,7 @@
-import {defineConfig} from "cypress";
-import {allureCypress} from "allure-cypress/reporter";
+import { defineConfig } from "cypress";
+import { allureCypress } from "allure-cypress/reporter";
 
-
-module.exports = defineConfig({
+export default defineConfig({
     e2e: {
         setupNodeEvents(on, config) {
             allureCypress(on, config, {
