@@ -95,7 +95,6 @@ jobs:
       - name: Display test path
         run: |
           echo "Running tests for spec: ${{ matrix.spec }}"
-
       - name: Setup Cypress
         uses: cypress-io/github-action@v5
         with:
@@ -115,9 +114,7 @@ jobs:
         if: ${{ contains(matrix.spec, 'test-execution') }}
         run: |
           mkdir -p allure-results
-
           CONFIG_FILE=${{ github.event.inputs.config_file }} node ${{ matrix.spec }}
-
           if [ -z "$(ls -A allure-results 2>/dev/null)" ]; then
             TEST_NAME=$(basename ${{ matrix.spec }} | sed 's/_execution.js//')
             cat > allure-results/result.json << EOF
@@ -132,12 +129,11 @@ jobs:
           }
           EOF
           fi
-
       - name: Save test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-${{ matrix.spec }}
+          name: allure-results-${{ runner.os }}-${{ github.run_id }}-${{ strategy.job-index }}
           path: allure-results
           retention-days: 1
 
