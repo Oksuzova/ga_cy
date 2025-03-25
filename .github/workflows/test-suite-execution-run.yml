@@ -47,14 +47,11 @@ jobs:
             const executionTests = '${{ github.event.inputs.execution_tests }}';
             const suiteTests = '${{ github.event.inputs.suite_tests }}';
             let specs = [];
-
             function processTests(inputValue, basePath) {
               if (!inputValue || inputValue.trim() === '') {
                 return [];
               }
-
               const items = inputValue.split(',').map(item => item.trim());
-
               return items.map(item => {
                 if (item.endsWith('.js') || item.endsWith('.cy.js')) {
                   if (item.startsWith('cypress/')) {
@@ -62,7 +59,6 @@ jobs:
                   }
                   return `${basePath}/${item}`;
                 }
-
                 if (basePath.includes('test-execution')) {
                   const normalizedName = item.replace(/-/g, '_');
                   return `${basePath}/${item}/${normalizedName}_execution.js`;
@@ -71,15 +67,11 @@ jobs:
                 }
               });
             }
-
             const executionSpecs = processTests(executionTests, 'cypress/tests/test-execution');
             const suiteSpecs = processTests(suiteTests, 'cypress/tests/test-suites');
-
             specs = [...executionSpecs, ...suiteSpecs];
-
             console.log('Generated specs:', specs);
             core.setOutput('specs', JSON.stringify(specs));
-
   tests:
     runs-on: ubuntu-latest
     needs: [ install, create-job-matrix ]
@@ -162,34 +154,27 @@ jobs:
             echo "Directory allure-results does not exist!"
             mkdir -p allure-results
           fi
-
       - name: Prepare merged results
         run: |
           mkdir -p merged-results
-
           for dir in allure-results/*/; do
             if [ -d "$dir" ]; then
               dir_id=$(basename "$dir")
               mkdir -p "merged-results/$dir_id"
-
               find "$dir" -type f | while read -r file; do
                 cp -v "$file" "merged-results/$dir_id/"
               done
             fi
           done
-
           find merged-results -type f -name "*.json" -exec cp {} allure-results/ \;
           find merged-results -type f -not -name "*.json" -exec cp {} allure-results/ \;
-
           echo "Final allure-results content:"
           ls -la allure-results || echo "Empty allure-results directory"
           echo "Total files in allure-results:"
           find allure-results -type f | wc -l
-
       - name: Install Allure CLI
         run: |
           npm install -g allure-commandline
-
       - name: Load test report history
         uses: actions/checkout@v4
         continue-on-error: true
