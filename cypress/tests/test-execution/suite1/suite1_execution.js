@@ -1,7 +1,9 @@
 import cypress from "cypress";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const configFile = process.env.CONFIG_FILE || 'default.config.js';
-console.log(`Running Suite 1 with config: ${configFile}`);
 
 cypress.run({
     config: {
