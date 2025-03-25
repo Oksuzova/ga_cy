@@ -1,4 +1,4 @@
-const cypress = require('cypress');
+import cypress from "cypress";
 
 const configFile = process.env.CONFIG_FILE || 'dev.config.js';
 console.log(`Running Suite 4 with config: ${configFile}`);

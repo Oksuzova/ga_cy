@@ -1,4 +1,4 @@
-const {defineConfig} = require('cypress');
+import {defineConfig} from "cypress";
 import {allureCypress} from "allure-cypress/reporter";
 
 
