@@ -132,6 +132,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Debug artifacts
+        run: |
+          echo "Listing downloaded artifacts directory structure:"
+          find allure-results -type d | sort
+          echo "Listing actual files:"
+          find allure-results -type f | wc -l
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -140,6 +147,7 @@ jobs:
 
       - name: Prepare merged results
         run: |
+          rm -rf merged-results
           mkdir -p merged-results
           find allure-results -type f -exec cp {} merged-results/ \;
           rm -rf allure-results
