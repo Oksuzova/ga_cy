@@ -145,27 +145,36 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Debug artifacts
-        run: |
-          echo "Listing downloaded artifacts directory structure:"
-          find allure-results -type d | sort
-          echo "Listing actual files:"
-          find allure-results -type f | wc -l
-
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: allure-results-*
           path: allure-results
 
+      - name: Debug artifacts
+        run: |
+          echo "Listing downloaded artifacts directory structure:"
+          if [ -d "allure-results" ]; then
+            find allure-results -type d | sort
+            echo "Listing actual files:"
+            find allure-results -type f | wc -l
+          else
+            echo "Directory allure-results does not exist!"
+            mkdir -p allure-results
+          fi
+
       - name: Prepare merged results
         run: |
-          rm -rf merged-results
           mkdir -p merged-results
-          find allure-results -type f -exec cp {} merged-results/ \;
+          find allure-results -type f -exec cp -v {} merged-results/ \; || echo "No files to copy"
           rm -rf allure-results
           mv merged-results allure-results
-          ls -la allure-results
+          echo "Final allure-results content:"
+          ls -la allure-results || echo "Empty allure-results directory"
+
+      - name: Install Allure CLI
+        run: |
+          npm install -g allure-commandline
 
       - name: Load test report history
         uses: actions/checkout@v4
