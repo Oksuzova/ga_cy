@@ -1,7 +1,7 @@
-import { defineConfig } from "cypress";
-import { allureCypress } from "allure-cypress/reporter";
+const { defineConfig } = require("cypress");
+const {allureCypress} = require("allure-cypress/reporter");
 
-export default defineConfig({
+module.exports = defineConfig({
     experimentalMemoryManagement: true,
     numTestsKeptInMemory: 1,
     e2e: {
